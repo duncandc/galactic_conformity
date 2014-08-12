@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#python add_empty_haloes.py Mr19_age_distribution_matching_mock & 
+python add_empty_haloes.py Mr19_age_distribution_matching_mock_cen_shuffle &
+python add_empty_haloes.py Mr19_age_distribution_matching_mock_satsys_shuffle &
+python add_empty_haloes.py Mr19_age_distribution_matching_mock_sys_empty_shuffle &
+python add_empty_haloes.py Mr19_age_distribution_matching_mock_sys_empty_shuffle_satsys_shuffle &
+python add_empty_haloes.py Mr19_age_distribution_matching_mock_sys_empty_shuffle_cen_shuffle &
+python add_empty_haloes.py Mr19_age_distribution_matching_mock_sys_empty_shuffle_satrel_shuffle &
