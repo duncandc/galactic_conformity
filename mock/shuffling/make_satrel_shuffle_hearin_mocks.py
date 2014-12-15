@@ -39,8 +39,8 @@ def main():
     #identify central galaxies, host haloes
     centrals = np.where(GC['ID_host'] == -1)[0] #indices of the central galaxies
     print 'number of centrals, host haloes:', len(centrals)
-    satellites = np.where(GC['ID_host'] != -1)[0] #indices of the central galaxies
-    print 'number of centrals, host haloes:', len(satellites)
+    satellites = np.where(GC['ID_host'] != -1)[0] #indices of the satellite galaxies
+    print 'number of satellites, host haloes:', len(satellites)
 
     #define mass bins, and which central are in each mass bin
     mass_bins = np.arange(8.0,16.0,0.1) #log mass bins
