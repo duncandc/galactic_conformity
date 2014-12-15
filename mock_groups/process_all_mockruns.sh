@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#age-matching mock
+python process_mockruns.py yang Mr19_age_distribution_matching_mock
+python process_mockruns.py berlind Mr19_age_distribution_matching_mock
+python process_mockruns.py tinker Mr19_age_distribution_matching_mock
+
+#shuffled mock
+python process_mockruns.py yang Mr19_age_distribution_matching_mock_sys_empty_shuffle_satrel_shuffle
+python process_mockruns.py berlind Mr19_age_distribution_matching_mock_sys_empty_shuffle_satrel_shuffle
+python process_mockruns.py tinker Mr19_age_distribution_matching_mock_sys_empty_shuffle_satrel_shuffle
