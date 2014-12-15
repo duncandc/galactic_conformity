@@ -13,12 +13,11 @@ from astropy import table
 from astropy.io import ascii
 from astropy import cosmology
 from scipy.interpolate import interp1d
-from mpl_toolkits.mplot3d import Axes3D
-from pyrr import vector
+import custom_utilities as cu
 
 def main():
 
-    filepath  = '/scratch/dac29/output/processed_data/hearin_mocks/custom_catalogues/'
+    filepath  = cu.get_output_path()+'processed_data/hearin_mocks/custom_catalogues/'
     savepath = filepath+'tinker_radec_mocks/'
     filename  = sys.argv[1]
     catalogue = filename[0:-33]
@@ -77,41 +76,6 @@ def main():
     keep = (keep_2&keep_1)
     mock = mock[keep]
 
-    ''' 
-    fig = plt.figure()
-    ax = fig.add_subplot(221, projection='3d')
-    ax.scatter(data['x'], data['y'], data['z'], zdir='z',marker='.',alpha=0.1, s=1)
-    ax.set_xlim([0,250])
-    ax.set_ylim([0,250])
-    ax.set_zlim([0,250])
- 
-    ax = fig.add_subplot(222, projection='3d')
-    ax.set_xlim([0,f(Lbox)])
-    ax.set_ylim([0,f(Lbox)])
-    ax.set_zlim([0,f(Lbox)])
-    ax.scatter(np.cos(mock['ra'])*np.sin(math.pi/2.0 - mock['dec'])*mock['z'],\
-               np.sin(mock['ra'])*np.sin(math.pi/2.0 - mock['dec'])*mock['z'],\
-               mock['z']*np.cos(math.pi/2.0-mock['dec']), zdir='z', marker='.', alpha=0.1, s=1)
-
-    #determine abs mag limit as afunction of z to overplot
-    app_mag_r_lim = 17.77 
-    z_bins        = np.arange(1.0,0.001,-0.001)
-    dm            = dist_mod(z_bins,cosmo)
-    abs_mag_r_lim = app_mag_r_lim - dm
-    f_r           = interp1d(abs_mag_r_lim, z_bins, kind='cubic', bounds_error=False, fill_value=max(z_bins))
-
-    ax = fig.add_subplot(223)
-    plt.plot(mock['z'],data['Mag'][keep],'.',ms=1)
-    plt.plot([0,1],[-19,-19], '--', color='red')
-    plt.plot(z_bins,abs_mag_r_lim, '--', color='orange')
-    plt.ylim([-18.5,-23])
-    plt.xlim([0,1.05*max(mock['z'])])
-    plt.xlabel('z')
-    plt.ylabel('Mag')
-    plt.tight_layout()
-    #plt.show()
-    '''
-    
     print max(mock['z']), f(Lbox), (max(mock['z'])-f(Lbox))*c
 
     #convert ra,dec into degrees
