@@ -44,6 +44,11 @@ def main():
     satellites = np.where(GC['ID_host'] != -1)[0] #satellite galaxies (subhaloes)
     print 'number of centrals:',   len(centrals)
     print 'number of satellites:', len(satellites)
+    
+    #match mock to halo catlaogue
+    match_1, match_2 = cu.match(GC['ID_halo'],HC['id'])
+    match_1b, match_2b = cu.match(GC['ID_host'][satellites],HC['id'])
+    match_1b = satellites[match_1b]
 
     #idenitify haloes in the halo catalogue that are present in the mock
     host_haloes = np.where(HC['upid'] == -1)[0]
@@ -76,7 +81,7 @@ def main():
     dtype = [('ID_halo', '<i8'), ('x', '<f8'), ('y', '<f8'), ('z', '<f8'), ('Vx', '<f8'), ('Vy', '<f8'),\
              ('Vz', '<f8'), ('M_vir', '<f8'), ('V_peak', '<f8'), ('M_r,0.1', '<f8'), ('M_star', '<f8'),\
              ('g-r', '<f8'), ('M_host', '<f8'), ('ID_host', '<i8'), ('r', '<f8'), ('R_proj', '<f8'),\
-             ('R200', '<f8')]
+             ('R200', '<f8'),('M200b', '<f8'),('M200b_host', '<f8')]
     print dtype
     dtype = np.dtype(dtype)
     N_entries = len(GC)+len(missing_halo_inds)
@@ -109,10 +114,17 @@ def main():
     GC_new['Vx'][ind_begin:ind_end]      = HC['vx'][missing_halo_inds]
     GC_new['Vy'][ind_begin:ind_end]      = HC['vy'][missing_halo_inds]
     GC_new['Vz'][ind_begin:ind_end]      = HC['vz'][missing_halo_inds]
-    GC_new['M_host'][ind_begin:ind_end]  = np.log10(HC['M200b'][missing_halo_inds])
+    GC_new['M_host'][ind_begin:ind_end]  = np.log10(HC['mvir'][missing_halo_inds])
     GC_new['M_vir'][ind_begin:ind_end]   = np.log10(HC['mvir'][missing_halo_inds])
     GC_new['V_peak'][ind_begin:ind_end]  = HC['Vpeak'][missing_halo_inds]
+    GC_new['M200b'][ind_begin:ind_end]  = np.log10(HC['M200b'][missing_halo_inds])
+    GC_new['M200b_host'][ind_begin:ind_end]  = np.log10(HC['M200b'][missing_halo_inds])
     
+    GC_new['M200b'][match_1] = np.log10(HC['M200b'][match_2])
+    GC_new['M200b_host'][match_1] = np.log10(HC['M200b'][match_2])
+    GC_new['M200b_host'][match_1b] = np.log10(HC['M200b'][match_2b])
+    
+    """
     #calculate the radial distance of subhaloes from center of halo
     host_halo_inds = np.where(GC_new['ID_host'] == -1)[0]
     host_halo_ids  = GC_new['ID_halo'][host_halo_inds]
@@ -145,6 +157,7 @@ def main():
     R200 = 264.8*(10**GC_new['M_host']/(10.0**12.0))**(1.0/3.0)* \
            (Omega_m/0.27)**(1.0/3.0)*(1.0+0.0)**(-1.0)
     GC_new['R200'] = R200
+    """
 
     print 'saving hdf5 version of the extended catalogue...'
     filename = catalogue_0+'_extended'
