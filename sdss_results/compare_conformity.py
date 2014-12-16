@@ -9,7 +9,8 @@ import sys
 
 def main():
 
-    catalogue = sys.argv[1]
+    if len(sys.argv)>1: catalogue = sys.argv[1]
+    esle: catalogue = 'sample3_L_model.mr19'
     plotpath = cu.get_plot_path() + 'analysis/groupcats/'
     
     filepath_cat = cu.get_output_path() + 'analysis/yang_groupcat/'
@@ -24,7 +25,7 @@ def main():
     filename = catalogue+'_red_central_conformity.npy'
     arr2_2 = np.load(filepath_cat+filename)
 
-    filepath_cat = cu.get_output_path() + 'analysis/wetzel_groupcat/'
+    filepath_cat = cu.get_output_path() + 'analysis/berlind_groupcat/'
     filename = catalogue+'_blue_central_conformity.npy'
     arr1_3 = np.load(filepath_cat+filename)
     filename = catalogue+'_red_central_conformity.npy'
